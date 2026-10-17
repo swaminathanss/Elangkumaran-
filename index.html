@@ -263,7 +263,7 @@ h2:after{display:none!important}
 <p style="margin:12px 0 0"><span class="en">Please arrive half an hour early for your pooja. Contact:</span><span class="ta">பூஜைக்கு அரை மணி நேரம் முன்பாக வரவும். தொடர்புக்கு:</span></p>
 <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="call" href="tel:+919444878797">📞 94448 78797</a><a class="call" href="tel:+917418947550">📞 74189 47550</a><a class="call" href="tel:+919940266645">📞 99402 66645</a></div>
 </div></div>
-<div id="lb"><img id="lbi" alt="Brochure"></div></section>
+</section>
 
 <section id="about">
 <h2><span class="en">About the Temple</span><span class="ta">கோயில் பற்றி</span></h2>
@@ -349,6 +349,7 @@ h2:after{display:none!important}
 <div class="fl"><a href="#about"><span class="en">About</span><span class="ta">பற்றி</span></a><a href="#history"><span class="en">History</span><span class="ta">வரலாறு</span></a><a href="#president"><span class="en">Trust</span><span class="ta">அறக்கட்டளை</span></a><a href="#contact"><span class="en">Contact</span><span class="ta">தொடர்பு</span></a><a href="#map"><span class="en">Location</span><span class="ta">இடம்</span></a><a href="#" onclick="replayIntro();return false"><span class="en">✨ Replay intro</span><span class="ta">✨ அறிமுகம் மீண்டும்</span></a></div>
 <p class="fc">© 2026 Arulmigu Elangumaran Trust (Reg.) · Kattur, Thiruporur 603110 · <span class="en">Om Saravana Bhava</span><span class="ta">ஓம் சரவண பவ</span></p>
 </footer>
+<div id="lb"><img id="lbi" alt="Brochure"></div>
 
 <script>
 var b=document.body,t=document.getElementById('tg');
@@ -363,13 +364,11 @@ var lb=document.getElementById('lb'),msg=document.getElementById('msg');
 document.getElementById('zm').onclick=document.getElementById('bro').onclick=function(){document.getElementById('lbi').src=document.getElementById('bimg').src;lb.style.display='block'};
 lb.onclick=function(){lb.style.display='none'};
 document.getElementById('dlb').onclick=function(){
+ var fn='Elangumaran-Kandha-Sashti-Brochure.jpg';
  var say=function(e,t){msg.innerHTML='<span class="en">'+e+'</span><span class="ta">'+t+'</span>'};
- try{window.claude.use('downloads').then(function(d){
-  if(!d){say('Download is not available here — tap the brochure to open it full size and save the image.','பதிவிறக்கம் இங்கு இயலாது — அழைப்பிதழைத் தொட்டு பெரிதாக திறந்து படத்தை சேமிக்கவும்.');return}
-  var bin=atob(document.getElementById('bimg').src.split(',')[1]),a=new Uint8Array(bin.length);
-  for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
-  d.save({filename:'Elangumaran-Kandha-Sashti-Brochure.jpg',data:new Blob([a],{type:'image/jpeg'})}).then(function(){say('Saved. Thank you!','சேமிக்கப்பட்டது. நன்றி!')}).catch(function(){say('Download cancelled.','பதிவிறக்கம் ரத்து செய்யப்பட்டது.')})
- })}catch(e){say('Download is not available here.','பதிவிறக்கம் இங்கு இயலாது.')}};
+ function blob(){var bin=atob(document.getElementById('bimg').src.split(',')[1]),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:'image/jpeg'})}
+ function direct(){try{var u=URL.createObjectURL(blob()),l=document.createElement('a');l.href=u;l.download=fn;document.body.appendChild(l);l.click();document.body.removeChild(l);setTimeout(function(){URL.revokeObjectURL(u)},4000);say('Download started.','பதிவிறக்கம் தொடங்கியது.')}catch(e){say('Please tap the brochure to open it full size, then save the image.','அழைப்பிதழைத் தொட்டு பெரிதாக திறந்து படத்தை சேமிக்கவும்.')}}
+ if(window.claude&&window.claude.use){try{window.claude.use('downloads').then(function(d){if(!d){direct();return}d.save({filename:fn,data:blob()}).then(function(){say('Saved. Thank you!','சேமிக்கப்பட்டது. நன்றி!')}).catch(function(){say('Download cancelled.','பதிவிறக்கம் ரத்து செய்யப்பட்டது.')})}).catch(direct)}catch(e){direct()}}else direct()};
 function tick(){var t=new Date('2026-11-10T06:00:00+05:30')-new Date();
  if(t<=0){document.getElementById('cd').style.display='none';return}
  document.getElementById('c1').textContent=Math.floor(t/864e5);document.getElementById('c2').textContent=Math.floor(t%864e5/36e5);document.getElementById('c3').textContent=Math.floor(t%36e5/6e4)}
